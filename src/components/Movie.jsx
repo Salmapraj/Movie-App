@@ -10,9 +10,9 @@ function Movie({ movie }) {
     };
     
     return (
-<div className="bg-[#1a1a1a] rounded-sm flex flex-col hover:translate-y-[-5px] transition-transform duration-200 group h-[250px] sm:h-[220px] md:h-[280px]">
-          <div className="relative w-full h-[70%]">
-  <img className="w-full h-full object-cover" src={movie.img} alt={movie.title} />
+<div className="bg-[#1a1a1a] w-full max-w-[200px] sm:max-w-[200px] mx-auto rounded-md overflow-hidden shadow-md hover:-translate-y-1 transition-transform duration-200 group">     
+         <div className="relative w-full aspect-[2/3]">
+  <img className="w-full h-full object-cover" src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
 </div>
 
             
@@ -28,9 +28,9 @@ function Movie({ movie }) {
                 </button>
             </div>
             
-            <div className="text-white px-4">
-                <h3 className="text-[13px]">{movie.title}</h3>
-                <p className="text-[10px]">{movie.release_Date}</p>
+            <div className="text-white px-4 my-2">
+                <h3 className="text-[13px] mb-2">{movie.title}</h3>
+                <p className="text-[10px]">{movie.release_date ?.split("-")[0]}</p>
             </div>
         </div>
     );

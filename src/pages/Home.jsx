@@ -1,55 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Movie from "../components/Movie";
-// import Gonegirl from "../assets/Gonegirl.jpg";
+import { searchMovies } from "../../services/api";
+import { getPopularMovies } from "../../services/api";
+
+
+
 function Home() {
+
 	const [mov, setMov] = useState("");
-	
+	const [movies,setMovies] =useState([])
+	 const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Load popular movies on initial render
+  useEffect(() => {
+    const loadPopularMovies = async () => {
+      try {
+        const popularMovies = await getPopularMovies();
+        setMovies(popularMovies);
+      } catch (err) {
+        setError("Failed to load popular movies");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadPopularMovies();
+  }, []); // Empty dependency array means this runs once on mount
+
+
+
 	const handleSearch=(e)=>{
 		e.preventDefault() //input doesnt get cleared up
 		alert(mov)
 		setMov("")
 	}
-	const movies = [
-		{
-			id: 1,
-			title: "Gone Girl",
-			release_Date: 2016,
-			// img: "",
-		},
-		{
-			id: 2,
-			title: "Phobia",
-			release_Date: 2020,
-			// img: "",
-		},
-		{
-			id: 3,
-			title: "Split",
-			release_Date: 2021,
-			// img: "",
-		},
-		{
-			id: 4,
-			title: "Glass",
-			release_Date: 2015,
-			// img: "",
-		},
-		{
-			id: 5,
-			title: "Hereditary",
-			release_Date: 2017,
-			// img: "",
-		},
-
-		{
-			id: 6,
-			title: "Unlocked",
-			release_Date: 2016,
-			// img: "",
-		},
-	];
+	
+	
 	return (
-		<div className=" bg-gray-700 w-full h-full
+		<div className=" bg-gray-700 w-full h-full pb-4
 ">
 			<form action="Post" onSubmit={handleSearch} className="flex justify-center ">
 				<input
@@ -66,8 +56,7 @@ function Home() {
 					Search
 				</button>
 			</form>
-<div className="mt-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-6 px-4 max-w-[1200px] mx-auto">
-				{movies.map((movie, key) => {
+<div className="mt-8 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-8xl">				{movies.map((movie, key) => {
 					return(
 					
 					

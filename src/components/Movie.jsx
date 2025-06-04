@@ -1,16 +1,21 @@
 
 import React from "react";
 import { useState } from "react";
+import { useMovieContext } from "../FavouriteContext";
 
 function Movie({ movie }) {
-    const [isFavourite, setIsFavourite] = useState(false);
-    
-    const Favourite = () => {
-        setIsFavourite((prev) => !prev);
+    const {isFav,addToFav, removeFav} = useMovieContext()
+
+const favourite = isFav(movie.id) //return true or false
+
+    const Favourite = (e) => {
+        e.preventDefault()
+        if(favourite) removeFav(movie.id)
+            else addToFav(movie)
     };
     
     return (
-<div className="bg-[#1a1a1a] w-full max-w-[200px] sm:max-w-[200px] mx-auto rounded-md overflow-hidden shadow-md hover:-translate-y-1 transition-transform duration-200 group">     
+<div div className="bg-[#1a1a1a] w-full max-w-[200px] sm:max-w-[200px] mx-auto rounded-md overflow-hidden shadow-md hover:-translate-y-1 transition-transform duration-200 group">     
          <div className="relative w-full aspect-[2/3]">
   <img className="w-full h-full object-cover" src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
 </div>
@@ -21,11 +26,13 @@ function Movie({ movie }) {
                 
                 {/* Favorite button */}
                 <button 
-                    onClick={Favourite}  
-                    className="absolute top-4 right-4 text-white text-[17px] p-2  w-10 h-10 flex items-center justify-center transition-colors duration-200 pointer-events-auto z-10"
-                >
-                    {isFavourite ? '❤️' : '🤍'}
-                </button>
+    onClick={Favourite}  
+    className={`absolute top-4 right-4 text-white text-[16px] border rounded-full w-8 h-8 flex items-center justify-center transition-colors duration-200 pointer-events-auto z-10
+        ${favourite ? 'bg-red-600' : 'bg-gray-600'}
+    `}
+>
+    🤍
+</button>
             </div>
             
             <div className="text-white px-4 my-2">
